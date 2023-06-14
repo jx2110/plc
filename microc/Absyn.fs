@@ -42,7 +42,15 @@ and stmt =
   | Block of stmtordec list          (* Block: grouping and scope   *)
   | DoWhile of stmt * expr           (* dowhile loop*)
   | DoUntil of stmt * expr           (* dountil *)
+  | For of expr * expr  * expr * stmt  (* For 循环*** *)
+  | Switch of expr * stmt list
+  | Case of expr * stmt 
+  | Default of stmt 
+  | Break
+  | Continue
+
   // 语句块内部，可以是变量声明 或语句的列表                                                              
+ 
 
 and stmtordec =                                                    
   | Dec of typ * string              (* Local variable declaration  *)

@@ -26,11 +26,17 @@ let keyword s =
     | "print"   -> PRINT
     | "println" -> PRINTLN
     | "return"  -> RETURN
+    | "for"     -> FOR
     | "true"    -> CSTBOOL 1
     | "void"    -> VOID 
     | "while"   -> WHILE 
-    | "do"      -> DO        
+    | "do"      -> DO  
+    | "switch"  -> SWITCH
+    | "case"    -> CASE   
+    | "default" -> DEFAULT    
     | "until"   -> UNTIL 
+    | "break"   -> BREAK
+    | "continue"-> CONTINUE 
     | _         -> NAME s   // 缺省情况，是标识符的名字，如 函数名，变量名等
                             // 当所有的关键字没有匹配成功时，则当成标识符
 // 字符串转义符处理函数

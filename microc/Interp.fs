@@ -314,6 +314,17 @@ let rec exec stmt (locEnv: locEnv) (gloEnv: gloEnv) (store: store) : store =
 
     | Return _ -> failwith "return not implemented" // 解释器没有实现 return
 
+    | For (e1, e2, e3, body) ->
+        let (v, store1) = eval e1 locEnv gloEnv store
+        let rec loop store1 = 
+            let (v,store2) = eval e2 locEnv gloEnv store1
+            if v<>0 then loop(snd(eval e3 locEnv gloEnv (exec body locEnv gloEnv store2)))
+            else store2
+
+        loop store1
+    
+
+
 and stmtordec stmtordec locEnv gloEnv store =
     match stmtordec with
     | Stmt stmt -> (locEnv, exec stmt locEnv gloEnv store)
