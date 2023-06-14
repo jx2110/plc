@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/Users/jiayutao/Library/Mobile Documents/com~apple~CloudDocs/.Trash/microc 下午3.11.03/interpc.fsproj": {}
+    "/Users/jiayutao/Documents/GitHub/git/plc/microc/interpc.fsproj": {}
   },
   "projects": {
-    "/Users/jiayutao/Library/Mobile Documents/com~apple~CloudDocs/.Trash/microc 下午3.11.03/interpc.fsproj": {
+    "/Users/jiayutao/Documents/GitHub/git/plc/microc/interpc.fsproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/jiayutao/Library/Mobile Documents/com~apple~CloudDocs/.Trash/microc 下午3.11.03/interpc.fsproj",
+        "projectUniqueName": "/Users/jiayutao/Documents/GitHub/git/plc/microc/interpc.fsproj",
         "projectName": "interpc",
-        "projectPath": "/Users/jiayutao/Library/Mobile Documents/com~apple~CloudDocs/.Trash/microc 下午3.11.03/interpc.fsproj",
+        "projectPath": "/Users/jiayutao/Documents/GitHub/git/plc/microc/interpc.fsproj",
         "packagesPath": "/Users/jiayutao/.nuget/packages/",
-        "outputPath": "/Users/jiayutao/Library/Mobile Documents/com~apple~CloudDocs/.Trash/microc 下午3.11.03/obj/",
+        "outputPath": "/Users/jiayutao/Documents/GitHub/git/plc/microc/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/jiayutao/.nuget/NuGet/NuGet.Config"

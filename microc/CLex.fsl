@@ -69,6 +69,7 @@ rule Token = parse          // 每个 规则rule 会生成为一个函数，函�
   | '/'             { DIV } 
   | '%'             { MOD }                     
   | '='             { ASSIGN } 
+  | "++"            { ADDADD }
   | "--"            { MINUSMINUS } 
   | "+="            { ADDASS }
   | "=="            { EQ } 
