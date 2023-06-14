@@ -79,6 +79,10 @@ rule Token = parse          // 每个 规则rule 会生成为一个函数，函�
   | '='             { ASSIGN } 
   | "++"            { ADDADD }
   | "--"            { MINUSMINUS } 
+  | "-="            { MINUSASS }
+  | "*="            { TIMESASS }
+  | "/="            { DIVASS }
+  | "%="            { MODASS }
   | "+="            { ADDASS }
   | "=="            { EQ } 
   | "!="            { NE }
