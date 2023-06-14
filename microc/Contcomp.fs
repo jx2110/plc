@@ -24,8 +24,6 @@ module Contcomp
 open System.IO
 open Absyn
 open StackMachine
-open System.Diagnostics
-open Debug
 
 (* The intermediate representation between passes 1 and 2 above:  *)
 
@@ -361,24 +359,11 @@ let cProgram (Prog topdecs) : instr list =
  *)
 
 let intsToFile (inss : int list) (fname : string) = 
-    printfn $"VM numeric code saved in file:\n\t{fname}"
     File.WriteAllText(fname, String.concat " " (List.map string inss))
-
-let writeInstr fname instrs =
-    let ins = String.concat "\n" (List.map string instrs)
-
-    File.WriteAllText(fname, ins)
-    printfn $"VM instructions saved in file:\n\t{fname}"
 
 let contCompileToFile program fname = 
     let instrs   = cProgram program 
-    
-    // printf "\nStack VM optimized instructions:\n %A\n" instrs
-    writeInstr (fname + ".opt.ins") instrs
-
     let bytecode = code2ints instrs
-
-    // printf "\nStack VM optimized numeric code:\n %A\n" bytecode 
-    intsToFile bytecode (fname+".opt.out"); instrs
+    intsToFile bytecode fname; instrs
 
 (* Example programs are found in the files ex1.c, ex2.c, etc *)

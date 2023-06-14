@@ -374,7 +374,7 @@ let compileToFile program fname =
 
     let instrs = cProgram program
 
-    msg <| sprintf "\nStack VM instructions:\n %A\n" instrs
+    msg <| sprintf "\nStack VM instrs:\n %A\n" instrs
 
     writeInstr (fname + ".ins") instrs
 

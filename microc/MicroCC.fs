@@ -12,10 +12,9 @@ let _ =
       let stem = if source.EndsWith(".c")
                  then source.Substring(0,source.Length-2) 
                  else source
-
-      printfn "Compiling %s ......\n" source
-
-      try ignore (Contcomp.contCompileToFile (Parse.fromFile source) stem)
+      let target = stem + ".out"
+      printf "Compiling %s to %s\n" source target;
+      try ignore (Contcomp.contCompileToFile (Parse.fromFile source) target)
       with Failure msg -> printf "ERROR: %s\n" msg
    else
       printf "Usage: microcc <source file>\n";;
