@@ -50,6 +50,10 @@ and stmt =
   | DoWhile of stmt * expr           (* dowhile loop*)
   | DoUntil of stmt * expr           (* dountil *)
   | For of expr * expr  * expr * stmt  (* For 循环*** *)
+  | ForInRange of string * expr * stmt               (* 即 for x in range(x){...} *)
+  | ForInRangein of string * expr * expr * stmt        (* 即 for x in range(x,y){...} *)
+  | ForInRangebystep of string * expr * expr * expr * stmt (* 即 for x in range(x,y,2){...} *)
+
   | Switch of expr * stmt list
   | Case of expr * stmt 
   | Default of stmt 

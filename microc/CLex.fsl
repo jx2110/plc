@@ -27,6 +27,8 @@ let keyword s =
     | "println" -> PRINTLN
     | "return"  -> RETURN
     | "for"     -> FOR
+    | "in"      -> IN
+    | "range"   -> RANGE
     | "true"    -> CSTBOOL 1
     | "void"    -> VOID 
     | "while"   -> WHILE 
