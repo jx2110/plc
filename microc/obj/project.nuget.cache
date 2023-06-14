@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "dgSpecHash": "2ZNDYfG76+2A0+NirnexZGuadrD8MP7DixrXsqSS4sjD04MULR+LESOX8+xgoZvewoBy42kJud4lsyr2YNcr7Q==",
+  "success": true,
+  "projectFilePath": "/Users/jiayutao/Library/Mobile Documents/com~apple~CloudDocs/.Trash/microc 下午3.11.03/interpc.fsproj",
+  "expectedPackageFiles": [
+    "/Users/jiayutao/.nuget/packages/fsharp.core/6.0.7/fsharp.core.6.0.7.nupkg.sha512",
+    "/Users/jiayutao/.nuget/packages/fslexyacc/10.2.0/fslexyacc.10.2.0.nupkg.sha512",
+    "/Users/jiayutao/.nuget/packages/fslexyacc.runtime/10.2.0/fslexyacc.runtime.10.2.0.nupkg.sha512"
+  ],
+  "logs": []
+}
