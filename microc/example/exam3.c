@@ -2,9 +2,8 @@ void main(){
   int x;
   int i;
   x=0;
-  x++;
+  do {
+      x++;
+  } while(x<5);
   print x;
-  i=10;
-  i--;
-  print i;
 }
