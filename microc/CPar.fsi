@@ -33,6 +33,8 @@ type token =
   | MODASS
   | ADDADD
   | MINUSMINUS
+  | QUESTION
+  | COLON
   | CHAR
   | ELSE
   | IF
@@ -80,6 +82,8 @@ type tokenId =
     | TOKEN_MODASS
     | TOKEN_ADDADD
     | TOKEN_MINUSMINUS
+    | TOKEN_QUESTION
+    | TOKEN_COLON
     | TOKEN_CHAR
     | TOKEN_ELSE
     | TOKEN_IF
