@@ -35,6 +35,9 @@ type token =
   | MINUSMINUS
   | QUESTION
   | COLON
+  | TOCHAR
+  | TOINT
+  | TOFLOAT
   | BOOL
   | CHAR
   | ELSE
@@ -99,6 +102,9 @@ type tokenId =
     | TOKEN_MINUSMINUS
     | TOKEN_QUESTION
     | TOKEN_COLON
+    | TOKEN_TOCHAR
+    | TOKEN_TOINT
+    | TOKEN_TOFLOAT
     | TOKEN_BOOL
     | TOKEN_CHAR
     | TOKEN_ELSE

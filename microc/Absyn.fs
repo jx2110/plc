@@ -31,6 +31,9 @@ and expr =                           // 表达式，右值
   | CstF of float32                  (* Constant float              *)
   | CstB of bool                     (* Constant                    *)
   | CstC of char                     (* Constant                    *)
+  | ToInt of expr
+  | ToChar of expr
+  // | ToFloat of expr
   | PrimPrint of char * expr 
   | Prim1 of string * expr           (* Unary primitive operator    *)
   | Prim2 of string * expr * expr    (* Binary primitive operator   *)

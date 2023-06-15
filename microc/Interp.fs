@@ -41,7 +41,9 @@ type 'data env = (string * 'data) list
 type value = 
     | VInt of int
     | VFloat of float
+    | VCHAR of char
 
+  
 
 let rec lookup env x =
     match env with
@@ -542,6 +544,20 @@ and eval e locEnv gloEnv store : int * store =
             eval e2 locEnv gloEnv store1
         else
             eval e3 locEnv gloEnv store1
+    
+    // | ToFloat e -> let (res,s) = eval e locEnv gloEnv structEnv store
+    //                match res with
+    //                | c -> ((float (int c)),s)
+    //                |_ -> ((res.float) ,s)
+
+    | ToInt e ->  let (res,s) = eval e locEnv gloEnv store
+                  match res with
+                  | i when i>=(int '0') && i<=(int '9') -> (int i - int '0',s)
+                  | _ ->  ((res) ,s)
+    | ToChar e -> let (res,s) = eval e locEnv gloEnv store
+                  match res with
+                  | i when i>=0 && i<=9 -> ((i + int '0'),s)
+                  | _ ->  ((res) ,s)
 
     | Andalso (e1, e2) ->
         let (i1, store1) as res = eval e1 locEnv gloEnv store

@@ -187,6 +187,10 @@ let rec cStmt stmt (varEnv: VarEnv) (funEnv: FunEnv) : instr list =
         @ cStmt body varEnv funEnv
           @ [ Label labtest ]
             @ cExpr e varEnv funEnv @ [ IFNZRO labbegin ]
+
+            
+    
+
     | Switch(e,cases)->
       let labend = newLabel()
       let rec everycase c=

@@ -23,6 +23,9 @@ let keyword s =
     | "if"      -> IF
     | "int"     -> INT
     | "float"   -> FLOAT
+    | "Int"     -> TOINT
+    // | "Float"   -> TOFLOAT
+    | "Char"    -> TOCHAR
     | "bool"    -> BOOL
     | "null"    -> NULL
     | "print"   -> PRINT

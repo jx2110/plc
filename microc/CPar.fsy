@@ -24,7 +24,7 @@ let nl = CstI 10 //  \n 的 ASCII 码
 %token <char> CSTCHAR
 
 %token BOOL CHAR ELSE IF INT FLOAT NULL PRINT PRINTF PRINTLN RETURN VOID WHILE FOR IN RANGE DO UNTIL CASE SWITCH DEFAULT BREAK CONTINUE
-%token PLUS MINUS TIMES DIV MOD ADDASS MINUSASS TIMESASS DIVASS MODASS ADDADD MINUSMINUS QUESTION COLON
+%token PLUS MINUS TIMES DIV MOD ADDASS MINUSASS TIMESASS DIVASS MODASS ADDADD MINUSMINUS QUESTION COLON TOCHAR TOINT TOFLOAT
 %token EQ NE GT LT GE LE
 %token NOT SEQOR SEQAND
 %token LPAR RPAR LBRACE RBRACE LBRACK RBRACK SEMI COMMA ASSIGN AMP
@@ -42,6 +42,7 @@ let nl = CstI 10 //  \n 的 ASCII 码
 %left TIMES DIV MOD 
 %right ADDADD MINUSMINUS
 %nonassoc NOT AMP 
+%right TOCHAR TOINT TOFLOAT 
 %nonassoc LBRACK          /* highest precedence  */
 %start Main            // 语法开始符号
 %type <Absyn.program> Main   // 开始符号，对应抽象语法树节点类型, program
@@ -193,6 +194,9 @@ ExprNotAccess:
   | Access DIVASS Expr                  { DivAss($1,$3)      }   // =
   | Access MODASS Expr                  { ModAss($1,$3)      }   //%=
   | NAME LPAR Exprs RPAR                { Call($1, $3)        }  
+  | LPAR TOCHAR RPAR Expr               { ToChar($4)          }
+  | LPAR TOINT RPAR Expr                { ToInt($4)           }
+  // | LPAR TOFLOAT RPAR Expr              { ToFloat($4)         }
   | NOT Expr                            { Prim1("!", $2)      }
   | PRINT CSTCHAR COLON Expr            { PrimPrint($2, $4)    }
   | PRINT Expr                          { Prim1("printi", $2) }
