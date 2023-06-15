@@ -187,7 +187,19 @@ let rec cStmt stmt (varEnv: VarEnv) (funEnv: FunEnv) : instr list =
         @ cStmt body varEnv funEnv
           @ [ Label labtest ]
             @ cExpr e varEnv funEnv @ [ IFNZRO labbegin ]
+// | While (e, body) ->
 
+//         //定义 While循环辅助函数 loop
+//         let rec loop store1 =
+//             //求值 循环条件,注意变更环境 store
+//             let (v, store2) = eval e locEnv gloEnv store1
+//             // 继续循环
+//             if v <> 0 then
+//                 loop (exec body locEnv gloEnv store2)
+//             else
+//                 store2 //退出循环返回 环境store2
+
+//         loop store
             
     
 
@@ -301,6 +313,41 @@ and cExpr (e: expr) (varEnv: VarEnv) (funEnv: FunEnv) : instr list =
              | ">" -> [ SWAP; LT ]
              | "<=" -> [ SWAP; LT; NOT ]
              | _ -> raise (Failure "unknown primitive 2"))
+    | Prim3(e1,e2,e3)->
+        let labelse = newLabel()
+        let labend  = newLabel()
+        cExpr e1 varEnv funEnv  @ [IFZERO labelse] 
+        @ cExpr e2 varEnv funEnv  @ [GOTO labend]
+            @ [Label labelse] @ cExpr e3 varEnv funEnv 
+                @ [Label labend]
+    | AddAdd(acc) ->
+        cAccess acc varEnv funEnv 
+        @(cExpr (Assign(acc, Prim2("+", Access acc, CstI 1))) varEnv funEnv) 
+    | MinusMinus(acc) ->
+        cAccess acc varEnv funEnv 
+        @ (cExpr (Assign(acc, Prim2("-", Access acc, CstI 1))) varEnv funEnv)
+    
+    | AddAss(acc,e) ->
+        cAccess acc varEnv funEnv 
+            @cExpr e varEnv funEnv
+                @ (cExpr (Assign(acc, Prim2("+", Access acc, e))) varEnv funEnv)
+    | MinusAss (acc, e) ->
+        cAccess acc varEnv funEnv 
+            @cExpr e varEnv funEnv
+                @ (cExpr (Assign(acc, Prim2("-", Access acc, e))) varEnv funEnv)
+    | TimesAss (acc, e) ->
+        cAccess acc varEnv funEnv 
+            @cExpr e varEnv funEnv
+                @ (cExpr (Assign(acc, Prim2("*", Access acc, e))) varEnv funEnv)
+    | DivAss (acc, e) ->
+        cAccess acc varEnv funEnv 
+            @cExpr e varEnv funEnv
+                @ (cExpr (Assign(acc, Prim2("/", Access acc, e))) varEnv funEnv)
+    | ModAss (acc, e) ->
+        cAccess acc varEnv funEnv 
+            @cExpr e varEnv funEnv
+                @ (cExpr (Assign(acc, Prim2("%", Access acc, e))) varEnv funEnv)
+
     | Andalso (e1, e2) ->
         let labend = newLabel ()
         let labfalse = newLabel ()
