@@ -105,6 +105,16 @@ let rec addCST i C =
     | (0, IFNZRO lab :: C1) -> C1
     | (_, IFNZRO lab :: C1) -> addGOTO lab C1
     | _                     -> CSTI i :: C
+
+    
+let rec addCSTF i C =
+    match (i, C) with
+    | _                     -> CSTF (System.BitConverter.ToInt32(System.BitConverter.GetBytes(float32(i)), 0)) :: C
+
+let rec addCSTC i C =
+    match (i, C) with
+    | _                     -> CSTC ((int32)(System.BitConverter.ToInt16(System.BitConverter.GetBytes(char(i)), 0))) :: C
+
             
 (* ------------------------------------------------------------------- *)
 

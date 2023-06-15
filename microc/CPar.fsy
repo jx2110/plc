@@ -9,7 +9,6 @@ open Absyn
 // Vardesc 返回的是一个 元组 (g,s)
 // g是类型构造函数，s是变量名
 // compose1 函数 取出 类型构造子 g，用类型复合机制构造类型。
-
 let first  (a, _, _) = a
 let second (_, b, _) = b
 let third  (_, _, c) = c

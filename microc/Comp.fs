@@ -187,6 +187,64 @@ let rec cStmt stmt (varEnv: VarEnv) (funEnv: FunEnv) : instr list =
         @ cStmt body varEnv funEnv
           @ [ Label labtest ]
             @ cExpr e varEnv funEnv @ [ IFNZRO labbegin ]
+    | DoWhile(body, e) ->
+      let labbegin = newLabel()
+      let labend=newLabel()
+      [Label labbegin]
+        @cStmt body varEnv funEnv 
+          @cExpr e varEnv funEnv 
+            @ [IFNZRO labbegin;Label labend]
+    | DoUntil(body, e) ->
+      let labbegin = newLabel()
+      let labend=newLabel()
+      [Label labbegin]
+        @cStmt body varEnv funEnv
+          @cExpr e varEnv funEnv
+            @ [IFZERO labbegin;Label labend]
+    | For (dec, e, opera, body) ->
+        let labend = newLabel ()
+        let labbegin = newLabel ()
+        let labope = newLabel ()
+        cExpr dec varEnv funEnv 
+        @ [ INCSP -1; Label labbegin ]
+          @ cStmt body varEnv funEnv 
+            @ [ Label labope ]
+              @ cExpr opera varEnv funEnv 
+                @ [ INCSP -1 ]
+                  @ cExpr e varEnv funEnv 
+                    @ [ IFNZRO labbegin ] @ [ Label labend ]
+    | Switch(e,cases)->
+      let labend = newLabel()
+      let rec everycase c=
+        match c with
+        | Case(cond,body):: tr->
+          let (labnext,labnextbody,code) = everycase tr
+          let labcond = newLabel()
+          let labbody = newLabel()
+          (labcond,labbody,[Label labcond]
+          @cExpr (Prim2("==",e,cond)) varEnv funEnv
+            @ [IFZERO labnext]
+              @ [Label labbody]
+                @ cStmt body varEnv funEnv
+                  @ [GOTO labnextbody]
+                    @ code )
+        | Default(body) ::tr ->
+          let (labnext,labnextbody,code) = everycase tr
+          let labcond = newLabel()
+          let labbody = newLabel()
+          (labcond,labbody,[Label labcond]
+          @cExpr (Prim2("==",e,e)) varEnv funEnv
+            @ [IFZERO labnext]
+              @ [Label labbody]
+                @ cStmt body varEnv funEnv
+                  @ [GOTO labnextbody]
+                    @ code )
+        | [] -> (labend,labend,[])
+      let (labcond, labbody, code) = everycase cases
+      code @ [ Label labend ]
+          
+    | Case(e,body)-> [INCSP -1]
+
     | Expr e -> cExpr e varEnv funEnv @ [ INCSP -1 ]
     | Block stmts ->
 
