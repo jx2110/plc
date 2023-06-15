@@ -187,32 +187,6 @@ let rec cStmt stmt (varEnv: VarEnv) (funEnv: FunEnv) : instr list =
         @ cStmt body varEnv funEnv
           @ [ Label labtest ]
             @ cExpr e varEnv funEnv @ [ IFNZRO labbegin ]
-    | DoWhile(body, e) ->
-      let labbegin = newLabel()
-      let labend=newLabel()
-      [Label labbegin]
-        @cStmt body varEnv funEnv 
-          @cExpr e varEnv funEnv 
-            @ [IFNZRO labbegin;Label labend]
-    | DoUntil(body, e) ->
-      let labbegin = newLabel()
-      let labend=newLabel()
-      [Label labbegin]
-        @cStmt body varEnv funEnv
-          @cExpr e varEnv funEnv
-            @ [IFZERO labbegin;Label labend]
-    | For (dec, e, opera, body) ->
-        let labend = newLabel ()
-        let labbegin = newLabel ()
-        let labope = newLabel ()
-        cExpr dec varEnv funEnv 
-        @ [ INCSP -1; Label labbegin ]
-          @ cStmt body varEnv funEnv 
-            @ [ Label labope ]
-              @ cExpr opera varEnv funEnv 
-                @ [ INCSP -1 ]
-                  @ cExpr e varEnv funEnv 
-                    @ [ IFNZRO labbegin ] @ [ Label labend ]
     | Switch(e,cases)->
       let labend = newLabel()
       let rec everycase c=
