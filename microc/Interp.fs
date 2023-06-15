@@ -300,6 +300,28 @@ let rec exec stmt (locEnv: locEnv) (gloEnv: gloEnv) (store: store) : store =
                 store2
 
         loop store
+
+    | Switch (e,body) -> //e为switch中的表达式
+        let (res, store0) = eval e locEnv gloEnv store//e表达式存给res
+        let rec chooseCase caseList store1=     //caselist表示case的集
+            match caseList with
+            | [] -> store1              //空则返回空闲地址store1
+            | Default(body1) :: cList1 -> 
+                if cList1.Length<>0 then    //除了default是否还有其他case
+                    let d = [Default(body1)]
+                    let cList2 = cList1 @ d //若default在中间将default放在最后
+                    chooseCase cList2 store1    
+                else
+                    exec body1 locEnv gloEnv store1
+            | Case(e1,body1) :: cList1 ->
+                let (v, store1) = eval e1 locEnv gloEnv store//v为case的选项
+                if v = res then //v和res匹配
+                    let store2 = exec body1 locEnv gloEnv store1
+                    store2
+                else
+                    chooseCase cList1 store1
+        chooseCase body store0
+        
     | Break -> store
     | Continue -> store
     | Expr e ->

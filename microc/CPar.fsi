@@ -141,6 +141,7 @@ type nonTerminalId =
     | NONTERM_StmtOrDecSeq
     | NONTERM_Stmt
     | NONTERM_StmtM
+    | NONTERM_StmtC
     | NONTERM_StmtU
     | NONTERM_Expr
     | NONTERM_ExprNotAccess

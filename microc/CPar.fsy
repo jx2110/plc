@@ -164,6 +164,14 @@ StmtM:  /* No unbalanced if-else */
 
 ;
 
+//switch内case
+StmtC:
+    CASE LPAR AtExprNotAccess RPAR COLON StmtM          { [Case ($3, $6) ] }
+  | DEFAULT COLON StmtM                               { [Default($3)]    }
+  | CASE LPAR AtExprNotAccess RPAR COLON StmtM StmtC    { Case ($3, $6) :: $7 }
+  | DEFAULT COLON StmtM StmtC                         { Default($3) :: $4  }
+;
+
 StmtU:
     IF LPAR Expr RPAR StmtM ELSE StmtU  { If($3, $5, $7)       }
   | IF LPAR Expr RPAR Stmt              { If($3, $5, Block []) }

@@ -54,9 +54,9 @@ and stmt =
   | ForInRangein of string * expr * expr * stmt        (* 即 for x in range(x,y){...} *)
   | ForInRangebystep of string * expr * expr * expr * stmt (* 即 for x in range(x,y,2){...} *)
 
-  | Switch of expr * stmt list
-  | Case of expr * stmt 
-  | Default of stmt 
+  | Switch of expr * stmt list       (* Switch分支，包括case和default*)
+  | Case of expr * stmt
+  | Default of stmt
   | Break
   | Continue
 
