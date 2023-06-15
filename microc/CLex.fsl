@@ -19,10 +19,11 @@ let keyword s =
     match s with
     | "char"    -> CHAR    // 返回对应的Token ,Token 定义于 CPar.fsl 文件中
     | "else"    -> ELSE
-    | "false"   -> CSTBOOL 0
+    | "false"   -> CSTBOOL false
     | "if"      -> IF
     | "int"     -> INT
     | "float"   -> FLOAT
+    | "bool"    -> BOOL
     | "null"    -> NULL
     | "print"   -> PRINT
     | "printf"   -> PRINTF
@@ -31,7 +32,7 @@ let keyword s =
     | "for"     -> FOR
     | "in"      -> IN
     | "range"   -> RANGE
-    | "true"    -> CSTBOOL 1
+    | "true"    -> CSTBOOL true
     | "void"    -> VOID 
     | "while"   -> WHILE 
     | "do"      -> DO  
@@ -72,9 +73,14 @@ rule Token = parse          // 每个 规则rule 会生成为一个函数，函�
                             //  CSTINT 需要一个整数作为参数 
   | ['0'-'9']+'.'['0'-'9']+ 
                     { CSTFLOAT (System.Single.Parse (lexemeAsString lexbuf)) } 
+  | ("false"|"true")    { CSTBOOL ( System.Boolean.Parse (lexemeAsString lexbuf )   ) }
   | ['a'-'z''A'-'Z']['a'-'z''A'-'Z''0'-'9']*
                     { keyword (lexemeAsString lexbuf) } //标识符处理
-                                                       //先查是否是关键字，是则返回对应关键字的Token
+                                                       //先查是否是关键字，是则返回对应关键字的Toke
+  | ['\'']['a'-'z''A'-'Z''0'-'9']['\'']            
+                    { try let single = lexemeAsString lexbuf in CSTCHAR (System.Char.Parse(single.Substring(1, 1))) with ex -> failwith "Char literal error." }
+  
+
   | '+'             { PLUS }  // 返回Token PLUS 给调用词法分析器的程序，通常是Parser
                               // 此时lexbuf是 匹配 '+'完成后，后续的内容 
   | '-'             { MINUS } 

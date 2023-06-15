@@ -219,6 +219,17 @@ let rec cStmt stmt (varEnv : VarEnv) (funEnv : FunEnv) (C : instr list) : instr 
     | Return (Some e) -> 
       cExpr e varEnv funEnv (RET (snd varEnv) :: deadcode C)
 
+    | For (e1, e2, e3, body) ->
+      let labend   = newLabel()                       //结束label
+      let labbegin = newLabel()                       //设置label 
+      let labope   = newLabel()                       //设置 for(,,opera) 的label
+      let Cend = Label labend :: C
+      let (jumptest, C1) =
+        makeJump (cExpr e2 varEnv funEnv (IFNZRO labbegin :: Cend))
+      let C2 = Label labope :: cExpr e3 varEnv funEnv (addINCSP -1 C1)
+      let C3 = cStmt body varEnv funEnv C2    
+      cExpr e1 varEnv funEnv (addINCSP -1 (addJump jumptest  (Label labbegin :: C3) ) )
+
 and bStmtordec stmtOrDec varEnv : bstmtordec * VarEnv =
     match stmtOrDec with 
     | Stmt stmt    ->
@@ -271,6 +282,13 @@ and cExpr (e : expr) (varEnv : VarEnv) (funEnv : FunEnv) (C : instr list) : inst
             | ">"   -> SWAP :: LT :: C
             | "<="  -> SWAP :: LT :: addNOT C
             | _     -> failwith "unknown primitive 2"))
+
+    | Prim3 (e1, e2, e3) ->
+      let (jumpend, C1) = makeJump C
+      let (labelse, C2) = addLabel (cExpr e3 varEnv funEnv C1)
+      cExpr e1 varEnv funEnv (IFZERO labelse 
+      :: cExpr e2 varEnv funEnv (addJump jumpend C2)) 
+      
     | Andalso(e1, e2) ->
       match C with
       | IFZERO lab :: _ ->

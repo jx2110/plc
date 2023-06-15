@@ -5,10 +5,13 @@ void main(){
   x=3.1;
   x=x+y;
   printf(x);
+  println;
   x=x/y;
   printf(x);
+  println;
   x=y-x; 
   printf(x);
+  println;
   x=x*y;
   printf(x);
 

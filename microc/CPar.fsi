@@ -35,6 +35,7 @@ type token =
   | MINUSMINUS
   | QUESTION
   | COLON
+  | BOOL
   | CHAR
   | ELSE
   | IF
@@ -57,11 +58,12 @@ type token =
   | DEFAULT
   | BREAK
   | CONTINUE
+  | CSTCHAR of (char)
   | CSTFLOAT of (float32)
   | CSTSTRING of (string)
   | NAME of (string)
+  | CSTBOOL of (bool)
   | CSTINT of (int)
-  | CSTBOOL of (int)
 type tokenId = 
     | TOKEN_EOF
     | TOKEN_LPAR
@@ -97,6 +99,7 @@ type tokenId =
     | TOKEN_MINUSMINUS
     | TOKEN_QUESTION
     | TOKEN_COLON
+    | TOKEN_BOOL
     | TOKEN_CHAR
     | TOKEN_ELSE
     | TOKEN_IF
@@ -119,11 +122,12 @@ type tokenId =
     | TOKEN_DEFAULT
     | TOKEN_BREAK
     | TOKEN_CONTINUE
+    | TOKEN_CSTCHAR
     | TOKEN_CSTFLOAT
     | TOKEN_CSTSTRING
     | TOKEN_NAME
-    | TOKEN_CSTINT
     | TOKEN_CSTBOOL
+    | TOKEN_CSTINT
     | TOKEN_end_of_input
     | TOKEN_error
 type nonTerminalId = 
@@ -152,6 +156,8 @@ type nonTerminalId =
     | NONTERM_Exprs1
     | NONTERM_Const
     | NONTERM_ConstFloat
+    | NONTERM_ConstBool
+    | NONTERM_ConstChar
     | NONTERM_Type
 /// This function maps tokens to integer indexes
 val tagOfToken: token -> int

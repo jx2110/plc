@@ -321,7 +321,6 @@ let rec exec stmt (locEnv: locEnv) (gloEnv: gloEnv) (store: store) : store =
                 else
                     chooseCase cList1 store1
         chooseCase body store0
-        
     | Break -> store
     | Continue -> store
     | Expr e ->
@@ -471,6 +470,11 @@ and eval e locEnv gloEnv store : int * store =
         let bytes = System.BitConverter.GetBytes(float32(f))
         let v = System.BitConverter.ToInt32(bytes, 0)
         (v, store)
+    | CstB b         -> let res  = 
+                          if b = false then 0 
+                                      else 1
+                        (res,store)
+    | CstC c   -> (int32 c,store)
     | AddAdd (acc) ->
         let (loc, store1) = access acc locEnv gloEnv store
         let e = getSto store1 loc + 1
@@ -480,6 +484,19 @@ and eval e locEnv gloEnv store : int * store =
         let e = getSto store1 loc - 1
         (e, setSto store1 loc e)
     | Addr acc -> access acc locEnv gloEnv store
+    | PrimPrint(ope,e1) ->
+      let (i1, store1) = eval e1 locEnv gloEnv store
+      let res =
+          match ope with
+          | 'd' -> (printf "%d " i1; i1)
+          | 'b' ->
+            let res = 
+              if i1 = 0 then false else true 
+            (printf "%b " res; i1)
+          | 'c' -> (printf "%c" (char i1); i1)
+          | 'f' -> (printf "%f " (System.BitConverter.ToSingle(System.BitConverter.GetBytes(i1), 0)); i1)
+          | _        -> failwith ("unknown primitive print" )
+      (res, store1)
     | Prim1 (ope, e1) ->
         let (i1, store1) = eval e1 locEnv gloEnv store
 
