@@ -1,9 +1,9 @@
 void main(){
-  char a;
+  char a='b';
   a='a';
   print 'c' : a;
   println;
-  bool x;
+  bool x=false;
   bool k;
   x=true;
   k=false;
