@@ -42,6 +42,7 @@ type token =
   | FLOAT
   | NULL
   | PRINT
+  | PRINTF
   | PRINTLN
   | RETURN
   | VOID
@@ -103,6 +104,7 @@ type tokenId =
     | TOKEN_FLOAT
     | TOKEN_NULL
     | TOKEN_PRINT
+    | TOKEN_PRINTF
     | TOKEN_PRINTLN
     | TOKEN_RETURN
     | TOKEN_VOID
@@ -130,6 +132,7 @@ type nonTerminalId =
     | NONTERM_Topdecs
     | NONTERM_Topdec
     | NONTERM_Vardec
+    | NONTERM_VardecAndAssign
     | NONTERM_Vardesc
     | NONTERM_Fundec
     | NONTERM_Paramdecs

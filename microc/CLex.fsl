@@ -25,6 +25,7 @@ let keyword s =
     | "float"   -> FLOAT
     | "null"    -> NULL
     | "print"   -> PRINT
+    | "printf"   -> PRINTF
     | "println" -> PRINTLN
     | "return"  -> RETURN
     | "for"     -> FOR

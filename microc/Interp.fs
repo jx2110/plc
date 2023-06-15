@@ -238,7 +238,9 @@ let initEnvAndStore (topdecs: topdec list) : locEnv * funEnv * store =
 
         //全局函数 将声明(f,(xs,body))添加到全局函数环境 funEnv
         | Fundec (_, f, xs, body) :: decr -> addv decr locEnv ((f, (xs, body)) :: funEnv) store
-
+        | VardecAndAssign (typ, x, e) :: decr ->
+            let (locEnv1, sto1) = allocate (typ, x) locEnv store
+            addv decr locEnv1 funEnv sto1
     // ([], 0) []  默认全局环境
     // locEnv ([],0) 变量环境 ，变量定义为空列表[],下一个空闲地址为0
     // ([("n", 1); ("r", 0)], 2)  表示定义了 变量 n , r 下一个可以用的变量索引是 2
@@ -392,7 +394,11 @@ and stmtordec stmtordec locEnv gloEnv store =
     match stmtordec with
     | Stmt stmt -> (locEnv, exec stmt locEnv gloEnv store)
     | Dec (typ, x) -> allocate (typ, x) locEnv store
-
+    | DecAndAssign (typ, x, e) -> 
+        let (loc,store1) = allocate (typ, x)  locEnv store
+        let (loc2, store2) = access (AccVar x) loc gloEnv store1
+        let (res, store3) =  eval e loc gloEnv store2
+        (loc, setSto store3 loc2 res)
 (* Evaluating micro-C expressions *)
 and eval e locEnv gloEnv store : int * store =
     match e with
@@ -459,14 +465,14 @@ and eval e locEnv gloEnv store : int * store =
             match ope with
             | "!" -> if i1 = 0 then 1 else 0
             | "printi" ->
-                (printf "%d " i1
+                (printf "%d " (int32 i1)
                  i1)
             | "printc" ->
                 (printf "%c" (char i1)
                  i1)  
             | "printf" ->
-                (printf "%f" (float i1)
-                 i1)    
+                (printf "%f" (System.BitConverter.ToSingle(System.BitConverter.GetBytes(int32 (i1)),0))
+                 i1)   
             | _ -> failwith ("unknown primitive " + ope)
 
         (res, store1)
@@ -476,10 +482,10 @@ and eval e locEnv gloEnv store : int * store =
 
         let res =
             match ope with
-            | "*" -> i1 * i2
-            | "+" -> i1 + i2
-            | "-" -> i1 - i2
-            | "/" -> i1 / i2
+            | "*" -> System.BitConverter.ToInt32( System.BitConverter.GetBytes(float32 ( (System.BitConverter.ToSingle(System.BitConverter.GetBytes(int32 (i1)),0)) * (System.BitConverter.ToSingle(System.BitConverter.GetBytes(int32 (i2)),0)) )) ,0 )
+            | "+" -> System.BitConverter.ToInt32( System.BitConverter.GetBytes(float32 ( (System.BitConverter.ToSingle(System.BitConverter.GetBytes(int32 (i1)),0)) + (System.BitConverter.ToSingle(System.BitConverter.GetBytes(int32 (i2)),0)) )) ,0 )
+            | "-" -> System.BitConverter.ToInt32( System.BitConverter.GetBytes(float32 ( (System.BitConverter.ToSingle(System.BitConverter.GetBytes(int32 (i1)),0)) - (System.BitConverter.ToSingle(System.BitConverter.GetBytes(int32 (i2)),0)) )) ,0 )
+            | "/" -> System.BitConverter.ToInt32( System.BitConverter.GetBytes(float32 ( (System.BitConverter.ToSingle(System.BitConverter.GetBytes(int32 (i1)),0)) / (System.BitConverter.ToSingle(System.BitConverter.GetBytes(int32 (i2)),0)) )) ,0 )
             | "%" -> i1 % i2
             | "==" -> if i1 = i2 then 1 else 0
             | "!=" -> if i1 <> i2 then 1 else 0
