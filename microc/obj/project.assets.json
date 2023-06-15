@@ -238,9 +238,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "F:\\plc\\microc\\microc.fsproj",
-      "projectName": "microc",
-      "projectPath": "F:\\plc\\microc\\microc.fsproj",
+      "projectUniqueName": "F:\\plc\\microc\\interpc.fsproj",
+      "projectName": "interpc",
+      "projectPath": "F:\\plc\\microc\\interpc.fsproj",
       "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
       "outputPath": "F:\\plc\\microc\\obj\\",
       "projectStyle": "PackageReference",

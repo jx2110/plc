@@ -341,7 +341,12 @@ let rec exec stmt (locEnv: locEnv) (gloEnv: gloEnv) (store: store) : store =
             | s1 :: sr -> loop sr (stmtordec s1 locEnv gloEnv store)
 
         loop stmts (locEnv, store)     
-    | Return _ -> failwith "return not implemented" // 解释器没有实现 return
+    | Return e ->  
+        match e with
+            | Some e1 -> let (res ,store1) = eval e1 locEnv gloEnv store; 
+                         (setSto store1 0 res)                
+            | None -> store
+
 
 
     | For (e1, e2, e3, body) ->
@@ -356,21 +361,21 @@ let rec exec stmt (locEnv: locEnv) (gloEnv: gloEnv) (store: store) : store =
     | ForInRange (name, e1, body) ->
         (* 定义 x， 并赋初值 0 *)
         let startVal = 0
-        let (locEnv1, store1) = allocate (TypI, name) locEnv store
-        let (_, nextLoc) = locEnv1
-        let locX = nextLoc - 1
-        let store2 = setSto store1 locX startVal
+        let (locEnv1, store1) = allocate (TypI, name) locEnv store  //将变量name与类型TypI进行关联，分配一个新的内存位置
+        let (_, nextLoc) = locEnv1   //更新后的局部环境locEnv1和存储器store1。
+        let locX = nextLoc - 1   //得到变量name的位置locX。
+        let store2 = setSto store1 locX startVal  //setSto函数将起始值startVal存储到位置locX上，更新存储器，得到新的存储器store2。
 
-        // (* 计算 e， 得值 untilVal *)
-        let (utilVal, store3) = eval e1 locEnv1 gloEnv store2
+        // (* 计算 e， 得值 untilVal *)//调用eval函数，计算循环上界e1的值，并返回计算结果utilVal和更新后的存储器store3
+        let (utilVal, store3) = eval e1 locEnv1 gloEnv store2 
 
-        let rec loop x store =
+        let rec loop x store =   //递归函数loop，接受当前的迭代变量x和存储器store作为参数
             if x < utilVal then
-                let store1 = exec body locEnv1 gloEnv store
-                let store2 = setSto store1 locX (x + 1)
-                loop (getSto store2 locX) store2
+                let store1 = exec body locEnv1 gloEnv store  //执行循环体body，并传递更新后的局部环境locEnv1、全局环境gloEnv和存储器store，得到更新后的存储器store1。
+                let store2 = setSto store1 locX (x + 1)  //使用setSto函数将新的迭代变量x + 1存储到位置locX上，更新存储器，得到新的存储器store2
+                loop (getSto store2 locX) store2  //迭代变量设为getSto store2 locX（即更新后的迭代变量值），传递更新后的存储器store2
             else
-                store1
+                store1 //迭代变量x大于或等于循环上界utilVal，则循环结束，返回存储器store1
 
         loop startVal store3
     | ForInRangein (name, e1, e2, body) ->
@@ -545,10 +550,6 @@ and eval e locEnv gloEnv store : int * store =
         else
             eval e3 locEnv gloEnv store1
     
-    // | ToFloat e -> let (res,s) = eval e locEnv gloEnv structEnv store
-    //                match res with
-    //                | c -> ((float (int c)),s)
-    //                |_ -> ((res.float) ,s)
 
     | ToInt e ->  let (res,s) = eval e locEnv gloEnv store
                   match res with
@@ -558,7 +559,10 @@ and eval e locEnv gloEnv store : int * store =
                   match res with
                   | i when i>=0 && i<=9 -> ((i + int '0'),s)
                   | _ ->  ((res) ,s)
-
+    // | ToFloat e -> let (res,s) = eval e locEnv gloEnv structEnv store
+    //                match res with
+    //                | c -> ((float (int c)),s)
+    //                |_ -> ((res.float) ,s)
     | Andalso (e1, e2) ->
         let (i1, store1) as res = eval e1 locEnv gloEnv store
 

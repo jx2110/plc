@@ -223,6 +223,17 @@ let rec cStmt stmt (varEnv: VarEnv) (funEnv: FunEnv) : instr list =
           
     | Case(e,body)-> [INCSP -1]
 
+    | DoWhile (body,e) ->
+        let labbegin = newLabel ()
+        let labtest = newLabel ()
+
+        [ GOTO labtest; Label labbegin ]
+        @ cStmt body varEnv funEnv
+          @ [ Label labtest ]
+            @ cExpr e varEnv funEnv @ [ IFNZRO labbegin ]
+
+
+
     | Expr e -> cExpr e varEnv funEnv @ [ INCSP -1 ]
     | Block stmts ->
 
