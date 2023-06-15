@@ -253,7 +253,7 @@ let initEnvAndStore (topdecs: topdec list) : locEnv * funEnv * store =
 
 (* Interpreting micro-C statements *)
 
-let rec exec stmt (locEnv: locEnv) (gloEnv: gloEnv) (store: store) : store =
+let rec exec stmt (locEnv: locEnv) (gloEnv: gloEnv) (store: store)  : store  =
     match stmt with
     | If (e, stmt1, stmt2) ->
         let (v, store1) = eval e locEnv gloEnv store
@@ -414,6 +414,42 @@ let rec exec stmt (locEnv: locEnv) (gloEnv: gloEnv) (store: store) : store =
                 store1
 
         loop startVal store5
+        
+    //     | Switch(e,body) ->  
+    //           let (res, store1) = eval e locEnv gloEnv store
+    //           let rec choose list =
+    //             match list with
+    //             | Case(e1,body1) :: tail -> 
+    //                 let (res2, store2) = eval e1 locEnv gloEnv store1
+    //                 if res2=res then exec body1 locEnv gloEnv store2
+    //                             else choose tail
+    //             | [] -> store1
+    //             | Default( body1 ) :: tail -> 
+    //                 exec body1 locEnv gloEnv store1
+    //                 choose tail
+    //           (choose body)
+    // | Case(e,body) -> exec body locEnv gloEnv store
+    // | Match(e,body) ->  
+    //           let (res, store1) = eval e locEnv gloEnv store
+    //           let rec choose list =
+    //             match list with
+    //             | Pattern(e1,body1) :: tail -> 
+    //                 let (res2, store2) = eval e1 locEnv gloEnv store1
+    //                 if res2 = res  then exec body1 locEnv gloEnv store2
+    //                                else choose tail
+    //             | [] -> store1 
+    //             | MatchAll( body1) :: tail ->
+    //                 exec body1 locEnv gloEnv store1
+    //                 choose tail
+    //           (choose body)
+    // | Pattern(e,body) -> exec body locEnv gloEnv store
+    // | MatchAll (body )->  exec body locEnv gloEnv store
+
+    // | Break -> store
+    // | Continue -> store
+    // | Pass -> store
+
+    
 
     
 

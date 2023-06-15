@@ -27,8 +27,8 @@ let nl = CstI 10 //  \n 的 ASCII 码
 %token PLUS MINUS TIMES DIV MOD ADDASS MINUSASS TIMESASS DIVASS MODASS ADDADD MINUSMINUS QUESTION COLON TOCHAR TOINT TOFLOAT
 %token EQ NE GT LT GE LE
 %token NOT SEQOR SEQAND
-%token LPAR RPAR LBRACE RBRACE LBRACK RBRACK SEMI COMMA ASSIGN AMP
-%token EOF
+%token LPAR RPAR LBRACE RBRACE LBRACK RBRACK SEMI COMMA ASSIGN AMP 
+%token EOF 
 
 %right ASSIGN
 %right ADDASS MINUSASS TIMESASS DIVASS MODASS 
@@ -148,11 +148,12 @@ Stmt:
 
 StmtM:  /* No unbalanced if-else */
     Expr SEMI                           { Expr($1)             }
-  | RETURN SEMI                         { Return None          }
-  | RETURN Expr SEMI                    { Return(Some($2))     }
+  | RETURN SEMI                         { Return None       }
+  | RETURN Expr SEMI                    { Return(Some($2))  }
+  | Block                               { $1                }
   | BREAK SEMI                          { Break             }
   | CONTINUE SEMI                       { Continue          }
-  | Block                               { $1                   }
+  | SWITCH LPAR Expr RPAR LBRACE StmtCase RBRACE        { Switch($3,$6)  }
   | IF LPAR Expr RPAR StmtM ELSE StmtM  { If($3, $5, $7)       }
   | WHILE LPAR Expr RPAR StmtM          { While($3, $5)        }
   | DO StmtM WHILE LPAR Expr RPAR SEMI  { DoWhile($2,$5) }
@@ -162,7 +163,6 @@ StmtM:  /* No unbalanced if-else */
   | FOR NAME IN RANGE LPAR Expr COMMA Expr RPAR StmtM                   { ForInRangein($2,$6,$8,$10) }
   | FOR NAME IN RANGE LPAR Expr COMMA Expr COMMA Expr RPAR StmtM        { ForInRangebystep($2,$6,$8,$10,$12) }
 
-  | SWITCH LPAR Expr RPAR LBRACE StmtCase RBRACE        { Switch($3,$6)  }
 
 ;
 
