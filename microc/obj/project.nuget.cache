@@ -1,12 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "TsdUlAWFjAMS2sJ++WpLQlM5vIDcQ/A6uaCQJtLiS+xtwn5YWqL6QYNQ+L5r6h7/N+/i07oZxrLom4q/Qd8Y4g==",
+  "dgSpecHash": "A0a0UhI8R4jPAlfznurBZCBzFQBYfI/+ZLmYg3ekBvh16vJvFUyBiYLFwI3z44FHnxFhv7pUHTP8vhVOZNkCUA==",
   "success": true,
-  "projectFilePath": "F:\\plc\\microc\\interpc.fsproj",
+  "projectFilePath": "/Users/jiayutao/Documents/GitHub/git/plc/microc/interpc.fsproj",
   "expectedPackageFiles": [
-    "C:\\Users\\Administrator\\.nuget\\packages\\fsharp.core\\6.0.7\\fsharp.core.6.0.7.nupkg.sha512",
-    "C:\\Users\\Administrator\\.nuget\\packages\\fslexyacc\\10.2.0\\fslexyacc.10.2.0.nupkg.sha512",
-    "C:\\Users\\Administrator\\.nuget\\packages\\fslexyacc.runtime\\10.2.0\\fslexyacc.runtime.10.2.0.nupkg.sha512"
+    "/Users/jiayutao/.nuget/packages/fsharp.core/6.0.7/fsharp.core.6.0.7.nupkg.sha512",
+    "/Users/jiayutao/.nuget/packages/fslexyacc/10.2.0/fslexyacc.10.2.0.nupkg.sha512",
+    "/Users/jiayutao/.nuget/packages/fslexyacc.runtime/10.2.0/fslexyacc.runtime.10.2.0.nupkg.sha512"
   ],
   "logs": []
 }

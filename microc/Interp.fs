@@ -38,8 +38,11 @@ open Debug
 
 type 'data env = (string * 'data) list
 
-//环境查找函数
-//在环境 env上查找名称为 x 的值
+type value = 
+    | VInt of int
+    | VFloat of float
+
+
 let rec lookup env x =
     match env with
     | [] -> failwith (x + " not found")
@@ -295,6 +298,8 @@ let rec exec stmt (locEnv: locEnv) (gloEnv: gloEnv) (store: store) : store =
                 store2
 
         loop store
+    | Break -> store
+    | Continue -> store
     | Expr e ->
         // _ 表示丢弃e的值,返回 变更后的环境store1
         let (_, store1) = eval e locEnv gloEnv store
@@ -310,9 +315,9 @@ let rec exec stmt (locEnv: locEnv) (gloEnv: gloEnv) (store: store) : store =
             // 调用loop 用变更后的环境 解释后面的语句 sr.
             | s1 :: sr -> loop sr (stmtordec s1 locEnv gloEnv store)
 
-        loop stmts (locEnv, store)
-
+        loop stmts (locEnv, store)     
     | Return _ -> failwith "return not implemented" // 解释器没有实现 return
+
 
     | For (e1, e2, e3, body) ->
         let (v, store1) = eval e1 locEnv gloEnv store
@@ -389,7 +394,6 @@ and stmtordec stmtordec locEnv gloEnv store =
     | Dec (typ, x) -> allocate (typ, x) locEnv store
 
 (* Evaluating micro-C expressions *)
-
 and eval e locEnv gloEnv store : int * store =
     match e with
     | AddAss (acc, e) ->
@@ -435,6 +439,10 @@ and eval e locEnv gloEnv store : int * store =
         let (res, store2) = eval e locEnv gloEnv store1
         (res, setSto store2 loc res)
     | CstI i -> (i, store)
+    | CstF f -> 
+        let bytes = System.BitConverter.GetBytes(float32(f))
+        let v = System.BitConverter.ToInt32(bytes, 0)
+        (v, store)
     | AddAdd (acc) ->
         let (loc, store1) = access acc locEnv gloEnv store
         let e = getSto store1 loc + 1
@@ -455,7 +463,10 @@ and eval e locEnv gloEnv store : int * store =
                  i1)
             | "printc" ->
                 (printf "%c" (char i1)
-                 i1)
+                 i1)  
+            | "printf" ->
+                (printf "%f" (float i1)
+                 i1)    
             | _ -> failwith ("unknown primitive " + ope)
 
         (res, store1)
