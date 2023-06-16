@@ -187,6 +187,18 @@ let rec cStmt stmt (varEnv: VarEnv) (funEnv: FunEnv) : instr list =
         @ cStmt body varEnv funEnv
           @ [ Label labtest ]
             @ cExpr e varEnv funEnv @ [ IFNZRO labbegin ]
+    | For (dec, e, opera, body) ->
+        let labend = newLabel ()
+        let labbegin = newLabel ()
+        let labope = newLabel ()
+        cExpr dec varEnv funEnv 
+        @ [ INCSP -1; Label labbegin ]
+          @ cStmt body varEnv funEnv 
+            @ [ Label labope ]
+              @ cExpr opera varEnv funEnv 
+                @ [ INCSP -1 ]
+                  @ cExpr e varEnv funEnv 
+                    @ [ IFNZRO labbegin ] @ [ Label labend ]
 // | While (e, body) ->
 
 //         //定义 While循环辅助函数 loop

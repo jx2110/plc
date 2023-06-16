@@ -16,7 +16,7 @@ asm_main:
 	;check arg count:
 	sub rsp, 24
 	mov rsi, rdi
-	mov rdi, 0
+	mov rdi, 1
 	call checkargc
 	add rsp, 24
 	pop rdi
@@ -34,8 +34,8 @@ _args_next:
 	sub rcx, 1
 	jmp _args_next      ;repeat until --ecx == 0
 _args_end:
-	lea rbp, [rsp--1*8]  ; make rbp point to first arg
-	;CALL 0,L1_main
+	lea rbp, [rsp-0*8]  ; make rbp point to first arg
+	;CALL 1,L1_main
 	push rbp 
 	call near L1_main
 	push rbx
@@ -51,7 +51,7 @@ L1_main:
 	sub rsp, 16     ; make space for svm r,bp 
 	mov rsi, rsp 
 	mov rbp, rsp 
-	add rbp, 0	   ; 8*arity 
+	add rbp, 8	   ; 8*arity 
 
 _L1_main_pro_1:	  ; slide 2 stack slot
 	cmp rbp, rsi      
@@ -67,8 +67,109 @@ _L1_main_pro_2:
 	mov [rbp+8], r10  ; set oldbp
 	;INCSP 1
 	lea rsp, [rsp-8*(1)]
-	;INCSP 1
-	lea rsp, [rsp-8*(1)]
+	;GETBP
+	push rbp
+	;OFFSET 1
+	push -8
+	;ADD
+	pop rax
+	pop r10
+	add rax, r10
+	push rax
+	;CSTI 1
+	push 1
+	;STI
+	pop r10
+	pop rax
+	mov [rax],r10
+	push r10
+	;INCSP -1
+	lea rsp, [rsp-8*(-1)]
+	
+L3:
+	;GETBP
+	push rbp
+	;OFFSET 1
+	push -8
+	;ADD
+	pop rax
+	pop r10
+	add rax, r10
+	push rax
+	;LDI
+	pop rax
+	mov rax,[rax]
+	push rax
+	;PRINTI
+	pop rdi
+	push rdi
+	sub rsp, 16
+	call printi
+	add rsp, 16
+	;INCSP -1
+	lea rsp, [rsp-8*(-1)]
+	;INCSP 0
+	lea rsp, [rsp-8*(0)]
+	
+L4:
+	;GETBP
+	push rbp
+	;OFFSET 1
+	push -8
+	;ADD
+	pop rax
+	pop r10
+	add rax, r10
+	push rax
+	;GETBP
+	push rbp
+	;OFFSET 1
+	push -8
+	;ADD
+	pop rax
+	pop r10
+	add rax, r10
+	push rax
+	;GETBP
+	push rbp
+	;OFFSET 1
+	push -8
+	;ADD
+	pop rax
+	pop r10
+	add rax, r10
+	push rax
+	;LDI
+	pop rax
+	mov rax,[rax]
+	push rax
+	;CSTI 1
+	push 1
+	;ADD
+	pop rax
+	pop r10
+	add rax, r10
+	push rax
+	;STI
+	pop r10
+	pop rax
+	mov [rax],r10
+	push r10
+	;INCSP -1
+	lea rsp, [rsp-8*(-1)]
+	;GETBP
+	push rbp
+	;OFFSET 1
+	push -8
+	;ADD
+	pop rax
+	pop r10
+	add rax, r10
+	push rax
+	;LDI
+	pop rax
+	mov rax,[rax]
+	push rax
 	;GETBP
 	push rbp
 	;OFFSET 0
@@ -78,170 +179,31 @@ _L1_main_pro_2:
 	pop r10
 	add rax, r10
 	push rax
-	;CSTI 0
+	;LDI
+	pop rax
+	mov rax,[rax]
+	push rax
+	;LT
+	pop rax
+	pop r10
+	cmp r10, rax
+	jl .Lasm0
 	push 0
-	;STI
-	pop r10
-	pop rax
-	mov [rax],r10
-	push r10
-	;INCSP -1
-	lea rsp, [rsp-8*(-1)]
-	;GETBP
-	push rbp
-	;OFFSET 0
-	push -0
-	;ADD
-	pop rax
-	pop r10
-	add rax, r10
-	push rax
-	;GETBP
-	push rbp
-	;OFFSET 0
-	push -0
-	;ADD
-	pop rax
-	pop r10
-	add rax, r10
-	push rax
-	;GETBP
-	push rbp
-	;OFFSET 0
-	push -0
-	;ADD
-	pop rax
-	pop r10
-	add rax, r10
-	push rax
-	;LDI
-	pop rax
-	mov rax,[rax]
-	push rax
-	;CSTI 1
+	jmp .Lasm1
+.Lasm0:
 	push 1
-	;ADD
+.Lasm1:
+	;IFNZRO L3
 	pop rax
-	pop r10
-	add rax, r10
-	push rax
-	;STI
-	pop r10
-	pop rax
-	mov [rax],r10
-	push r10
+	cmp rax,0
+	jne L3
+	
+L2:
 	;INCSP -1
 	lea rsp, [rsp-8*(-1)]
-	;GETBP
-	push rbp
-	;OFFSET 0
-	push -0
-	;ADD
-	pop rax
-	pop r10
-	add rax, r10
-	push rax
-	;LDI
-	pop rax
-	mov rax,[rax]
-	push rax
-	;PRINTI
-	pop rdi
-	push rdi
-	sub rsp, 16
-	call printi
-	add rsp, 16
-	;INCSP -1
-	lea rsp, [rsp-8*(-1)]
-	;GETBP
-	push rbp
-	;OFFSET 1
-	push -8
-	;ADD
-	pop rax
-	pop r10
-	add rax, r10
-	push rax
-	;CSTI 10
-	push 10
-	;STI
-	pop r10
-	pop rax
-	mov [rax],r10
-	push r10
-	;INCSP -1
-	lea rsp, [rsp-8*(-1)]
-	;GETBP
-	push rbp
-	;OFFSET 1
-	push -8
-	;ADD
-	pop rax
-	pop r10
-	add rax, r10
-	push rax
-	;GETBP
-	push rbp
-	;OFFSET 1
-	push -8
-	;ADD
-	pop rax
-	pop r10
-	add rax, r10
-	push rax
-	;GETBP
-	push rbp
-	;OFFSET 1
-	push -8
-	;ADD
-	pop rax
-	pop r10
-	add rax, r10
-	push rax
-	;LDI
-	pop rax
-	mov rax,[rax]
-	push rax
-	;CSTI 1
-	push 1
-	;SUB
-	pop r10
-	pop rax
-	sub rax,r10
-	push rax
-	;STI
-	pop r10
-	pop rax
-	mov [rax],r10
-	push r10
-	;INCSP -1
-	lea rsp, [rsp-8*(-1)]
-	;GETBP
-	push rbp
-	;OFFSET 1
-	push -8
-	;ADD
-	pop rax
-	pop r10
-	add rax, r10
-	push rax
-	;LDI
-	pop rax
-	mov rax,[rax]
-	push rax
-	;PRINTI
-	pop rdi
-	push rdi
-	sub rsp, 16
-	call printi
-	add rsp, 16
-	;INCSP -1
-	lea rsp, [rsp-8*(-1)]
-	;INCSP -2
-	lea rsp, [rsp-8*(-2)]
-	;RET -1
+	;RET 0
 	pop rbx
-	add rsp, 8*-1
+	add rsp, 8*0
 	pop rbp
 	ret
 	
