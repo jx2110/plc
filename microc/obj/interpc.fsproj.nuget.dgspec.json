@@ -1,26 +1,26 @@
 {
   "format": 1,
   "restore": {
-    "F:\\plc\\microc\\interpc.fsproj": {}
+    "/Users/jiayutao/Documents/GitHub/git/plc/microc/interpc.fsproj": {}
   },
   "projects": {
-    "F:\\plc\\microc\\interpc.fsproj": {
+    "/Users/jiayutao/Documents/GitHub/git/plc/microc/interpc.fsproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "F:\\plc\\microc\\interpc.fsproj",
+        "projectUniqueName": "/Users/jiayutao/Documents/GitHub/git/plc/microc/interpc.fsproj",
         "projectName": "interpc",
-        "projectPath": "F:\\plc\\microc\\interpc.fsproj",
-        "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
-        "outputPath": "F:\\plc\\microc\\obj\\",
+        "projectPath": "/Users/jiayutao/Documents/GitHub/git/plc/microc/interpc.fsproj",
+        "packagesPath": "/Users/jiayutao/.nuget/packages/",
+        "outputPath": "/Users/jiayutao/Documents/GitHub/git/plc/microc/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Administrator\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "/Users/jiayutao/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
         ],
         "sources": {
-          "C:\\Program Files\\dotnet\\sdk\\6.0.406\\FSharp\\library-packs": {},
+          "/usr/local/share/dotnet/sdk/6.0.408/FSharp/library-packs": {},
           "https://nuget.cdn.azure.cn/v3/index.json": {}
         },
         "frameworks": {
@@ -62,7 +62,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.406\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/6.0.408/RuntimeIdentifierGraph.json"
         }
       }
     }
