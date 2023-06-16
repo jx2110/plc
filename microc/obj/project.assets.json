@@ -238,9 +238,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/jiayutao/Documents/GitHub/git/plc/microc/interpc.fsproj",
-      "projectName": "interpc",
-      "projectPath": "/Users/jiayutao/Documents/GitHub/git/plc/microc/interpc.fsproj",
+      "projectUniqueName": "/Users/jiayutao/Documents/GitHub/git/plc/microc/microc.fsproj",
+      "projectName": "microc",
+      "projectPath": "/Users/jiayutao/Documents/GitHub/git/plc/microc/microc.fsproj",
       "packagesPath": "/Users/jiayutao/.nuget/packages/",
       "outputPath": "/Users/jiayutao/Documents/GitHub/git/plc/microc/obj/",
       "projectStyle": "PackageReference",

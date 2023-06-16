@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "A0a0UhI8R4jPAlfznurBZCBzFQBYfI/+ZLmYg3ekBvh16vJvFUyBiYLFwI3z44FHnxFhv7pUHTP8vhVOZNkCUA==",
+  "dgSpecHash": "G/R3b3VvT3wXvYdPN312R8/TLnZE6NWl1cFkAGAcnw1oT19NbDJb1RI7o46ELU+ym/cVgyHSY3AFDhocPRrdkQ==",
   "success": true,
-  "projectFilePath": "/Users/jiayutao/Documents/GitHub/git/plc/microc/interpc.fsproj",
+  "projectFilePath": "/Users/jiayutao/Documents/GitHub/git/plc/microc/microc.fsproj",
   "expectedPackageFiles": [
     "/Users/jiayutao/.nuget/packages/fsharp.core/6.0.7/fsharp.core.6.0.7.nupkg.sha512",
     "/Users/jiayutao/.nuget/packages/fslexyacc/10.2.0/fslexyacc.10.2.0.nupkg.sha512",
